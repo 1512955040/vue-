@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>系统设置</title>
+		<link rel="stylesheet" href="./static/element-ui.css" />
+		<script type="text/javascript" src="./static/vue.js" ></script>
+		<script type="text/javascript" src="./static/element-ui.js"></script>
+		<script type="text/javascript" src="./static/axios.min.js"></script>
+		<script type="text/javascript" src="./static/timeStamp.js"></script>
+		<script type="text/javascript" src="./static/ajaxPackage.js"></script>
+	</head>
+	<body>
+		<div id="page">
+			<div id="ConentPageLeft">
+				<div class="imglogo"></div>
+				<ul>
+					<li v-for="(title_index,index) in titleIndex" @click="changeTitle(index)"><i :class="{active:changeTitles ===index }"></i></li>
+				</ul>
+			</div>
+			<div id="ConentPageRight">
+				<div id="RightBackground"></div>
+				<div id="RightTitle">
+					<p class="di pageTilte">客户档案</p>
+					<ul class="pageLogo di">
+						<li><i></i></li>
+						<li><i></i></li>
+						<li><i></i></li>
+						<li><i></i></li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+				<div id="RightConent">
+					<div id="RightNavMenu">
+						<el-row class="tac proplow" >
+							<el-col :span="12">
+							    <el-menu
+							     :collapse-transition=false
+							      default-active="1-1"
+							      class="el-menu-vertical-demo"
+							      @select="handleSelect"
+							      background-color="#e9f0f8"
+							      text-color="#555958"
+      							  active-text-color="#186dbe"
+      							  @open="handleOpen"
+							      @close="handleClose"
+							    >
+							    <el-submenu index="1">
+							        <template slot="title">
+							          <span style="display: inline-block;width: 100%;height: 56px;" class="t1">基础设置</span>
+							        </template>
+							        <el-menu-item-group class="t1">
+							          <a href="systemSetub.html"><el-menu-item index="1-1">
+							          	<span class="arrow0">产品分类</span>
+							          </el-menu-item></a>
+							          <a href="productSetub.html"><el-menu-item index="1-2">
+							          	<span class="arrow0">产品设置</span>
+							          </el-menu-item></a>
+							          <a href="classifiSetub.html"><el-menu-item index="1-3">
+							          	<span class="arrow0">故障类别</span>
+							          </el-menu-item></a>
+							        </el-menu-item-group>
+							    </el-submenu>
+							    <el-submenu index="2">
+							        <template slot="title">
+							          <span style="display: inline-block;width: 100%;height: 56px;" class="t1">服务通道</span>
+							        </template>
+							        <el-menu-item-group class="t1">
+							          <el-menu-item index="2-1">选项1</el-menu-item>
+							          <el-menu-item index="2-2">选项2</el-menu-item>
+							          <el-menu-item index="2-3">选项3</el-menu-item>
+							          <el-menu-item index="2-4">选项4</el-menu-item>
+							        </el-menu-item-group>
+							    </el-submenu>
+							    <el-submenu index="3">
+							        <template slot="title">
+							          <span style="display: inline-block;width: 100%;height: 56px;">工单设置</span>
+							        </template>
+							        <el-menu-item-group>
+							          <a href="typeWork.html"><el-menu-item index="3-1">工单类型</el-menu-item></a>
+							          <a href="servicemodal.html"><el-menu-item index="3-2">服务模式</el-menu-item></a>
+							          <a href="workTime.html"><el-menu-item index="3-3">工作时间</el-menu-item></a>
+							        </el-menu-item-group>
+							    </el-submenu>
+							    <el-submenu index="4">
+							        <template slot="title">
+							            <span style="display: inline-block;width: 100%;height: 56px;" class="t1">组织人员</span>
+							        </template>
+							        <el-menu-item-group class="t1">
+							          	<a href="architecture.html"><el-menu-item index="4-1">组织架构</el-menu-item></a>
+										<a href="permissions.html"><el-menu-item index="4-2" >权限设置</el-menu-item></a>
+							        </el-menu-item-group>
+							    </el-submenu>
+							   </el-menu>
+							  </el-col>
+							</el-row>
+						</div>
+						<div id="RightForm">
+							<div class="RightForm_Left di">
+								<div class="Left_Title">
+									<span class="title_meau">分类目录</span>
+									<div @click="addmeau" class="addAssort di">添加分类</div>
+								</div>
+								<ul v-for="(dataIn,index) in datas" class="ulis">
+									<li><span class="di assort_color" :class="{'clickColor':indexDelete == dataIn.id}"></span>&nbsp;<span @click="click_label(dataIn.id,dataIn.name)" :class="{'click_color':indexDelete == dataIn.id}" v-html="dataIn.name"></span></li>
+								</ul>
+							</div>
+							<div class="RightForm_Right fr">
+								<div class="height_title" :class="{'dis':click_color}">点击左侧菜单进行相关操作</div>
+								<div class="Right_Title" :class="{'dis':!click_color}">
+									<span class="title_span di" @click="delete_this">删除</span>
+									<div class="clear"></div>
+									<div class="right_form">
+										<el-form ref="form" :model="form" status-icon :rules="rules3">
+											<el-form-item  prop="name">
+					 							<div :class="{'insIf':this.zIndex}" class="inputsDiv">类别名称(必填)</div>
+    											<el-input  v-model="form.name" auto-complete="off" :placeholder='holder' @focus="validatePass0"></el-input>
+  											</el-form-item>
+  											<el-form-item  prop="describes">
+  												<textarea placeholder="请输入描述" class="textarea" v-model="form.describes"></textarea>
+  											</el-form-item>
+  											<el-form-item>
+    											<el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
+  											</el-form-item>
+										</el-form>	
+									</div>
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<!--删除按钮-->
+				<div id="PopNewMan">
+					<el-dialog
+  					title="删除工作时间"
+  					:visible.sync="dialogVisible1"
+  					width="500px">
+  						<div class="my-delete">
+								<div class="icon_title">
+				  					<i class="icon_mark"></i>
+				  					<span class="di mark_span">确定删除吗?</span>
+				  				</div>
+				  			    <p class="check_delete">
+				  			    	<input type="checkbox" @change="Delete_this($event)" :checked="checked"/>是的，确定删除
+				  			    </p>
+  						</div>
+  						<div id="FormBottoms"></div>
+  						<div style="text-align: right; margin: 0">
+							<el-button type="danger" :loading="loading" @click="deletes" :disabled="disabled" class="deleteNow">{{this.Detail_Deleting}}</el-button>
+							<el-button  @click="dialogVisible1 = false" class="cancel">取消</el-button>
+						</div>
+					</el-dialog>
+				</div>
+			</div>
+	</body>
+	<script type="text/javascript"></script>
+</html>
